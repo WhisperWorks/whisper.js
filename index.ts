@@ -2,12 +2,21 @@
  * made with <3 by 1xxcy
  */
 
-import { WhisperJS as WJS } from "./core/bot"
-import { Logger as LGGR } from "./core/logging"
-import { WhisperInteraction as WHSPINT } from "./core/interaction"
+import { WhisperJS as wjs } from "./core/bot"
+import { Logger as logger } from "./core/logging"
+import { WhisperInteraction as wsi } from "./core/interaction"
 
+/**
+ * Whisper namespace
+ * @deprecated Use respective imports instead
+ */
 export namespace Whisper {
-  export const WhisperJS = WJS
-  export const Logger = LGGR
-  export type WhisperInteraction = WHSPINT
+  export const WhisperJS = wjs
+  export const Logger = logger
+  export type WhisperInteraction = wsi
 }
+
+export const WhisperJS = wjs
+export const Logger = logger
+
+export type WhisperInteraction = wsi
