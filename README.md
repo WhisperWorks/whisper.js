@@ -43,9 +43,9 @@ this property contains the configuration you passed to the `WhisperJS` class. it
 
 > commands/test.ts
 ```ts
-import { CacheType, ChatInputCommandInteraction } from "discord.js"
+import { WhisperInteraction } from "@whisperjs/whisper.js"
 
-export default async function test(interaction: ChatInputCommandInteraction<CacheType>) {
+export default async function test(interaction: WhisperInteraction) {
   return void await interaction.reply("Hello!")
 }
 ```
@@ -55,7 +55,7 @@ export default async function test(interaction: ChatInputCommandInteraction<Cach
 > events/ready.ts
 ```ts
 import { Client } from "discord.js"
-import { Logger } from "../../core/logging"
+import { Logger } from "@whisperjs/whisper.js"
 
 export default async function ready(client: Client<true>) {
   Logger.info(`Ready on ${client.user.displayName}`)
