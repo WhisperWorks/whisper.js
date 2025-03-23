@@ -52,6 +52,9 @@ export default async function ready(client: Client<true>) {
 ## roadmap
 
 [x] slash commands
+
 [ ] events (more than just on ready...)
+
 [ ] more interaction functions
+
 [ ] prefix commands (possibly)
