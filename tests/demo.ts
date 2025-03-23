@@ -1,11 +1,11 @@
 import { GatewayIntentBits } from "discord.js"
-import { SynxBot } from "../core/bot"
+import { WhisperJS } from "../core/bot"
 
 import "dotenv/config"
 
-const bot = new SynxBot({
+const bot = new WhisperJS({
   token: process.env.TOKEN!,
-  clientID: "1353249889857044510",
+  clientID: process.env.CLIENT_ID!,
   author: "1303167712654131252",
   devOnly: [],
   commands: [
