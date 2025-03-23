@@ -3,12 +3,13 @@ import { Config } from "./types"
 import { Logger } from "./logging"
 
 import fs from "fs"
+import { modifyInteraction } from "./interaction"
 
 export class WhisperJS {
   private client: Client
-  private config: Config
   private rest: REST
   private dir: string
+  public config: Config
   public started: boolean
 
   private commands: {
@@ -91,7 +92,7 @@ export class WhisperJS {
         return void await interaction.reply("This is a dev only command.")
       }
 
-      return void await this.commands[interaction.commandName].execute(interaction)
+      return void await this.commands[interaction.commandName].execute(modifyInteraction(interaction))
     })
 
     this.started = true
