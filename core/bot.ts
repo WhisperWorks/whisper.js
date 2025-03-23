@@ -4,7 +4,7 @@ import { Logger } from "./logging"
 
 import fs from "fs"
 
-export class SynxBot {
+export class WhisperJS {
   private client: Client
   private config: Config
   private rest: REST
