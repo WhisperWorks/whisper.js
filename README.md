@@ -2,9 +2,22 @@
 
 a highly experimental discord.js framework for making bot development super easy.
 
-## install
+## setup
 
-by the time this goes public there will be an npm package for it.
+```bash
+mkdir whisper-js-project
+cd whisper-js-project
+npm init -y
+npm i @whisperjs/whisper.js discord.js typescript
+mkdir commands
+mkdir events
+touch index.ts
+
+# once you set up your bot and it's commands & events...
+npx tsx index.ts # or compile it and run it that way
+```
+
+[npm package](https://www.npmjs.com/package/@whisperjs/whisper.js)
 
 ## contribute
 
