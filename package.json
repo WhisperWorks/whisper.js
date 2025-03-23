@@ -1,6 +1,6 @@
 {
   "name": "@whisperjs/whisper.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Streamline the Discord.js bot creation process",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -9,8 +9,9 @@
       "dist"
   ],
   "scripts": {
+    "publish": "tsup && npm publish --access=public",
     "build": "tsup",
-    "test": "jest"
+    "test": "npx tsx tests/demo.ts"
   },
   "author": "1xxcy",
   "license": "ISC",
