@@ -70,7 +70,7 @@ export default async function ready(client: Client<true>) {
 
 - [ ] database engine
 
-- [ ] better imports...
+- [x] better imports...
 
 - [ ] events (more than just on ready...)
 
