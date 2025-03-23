@@ -1,17 +1,28 @@
 {
-  "name": "@halalbunker/synx",
+  "name": "@whisperjs/whisper.js",
   "version": "1.0.0",
   "description": "Streamline the Discord.js bot creation process",
-  "main": "index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+      "dist"
+  ],
   "scripts": {
-    "test": "npx tsx index.ts"
+    "build": "tsup",
+    "test": "jest"
   },
   "author": "1xxcy",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.18.0",
+    "discord.js": "^14.18.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
     "dotenv": "^16.4.7",
-    "tsc": "^2.0.4",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }

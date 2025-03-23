@@ -9,6 +9,7 @@ export class WhisperJS {
   private config: Config
   private rest: REST
   private dir: string
+  public started: boolean
 
   private commands: {
     [name: string]: {
@@ -29,6 +30,7 @@ export class WhisperJS {
     this.dir = process.cwd()
     this.commands = {}
     this.events = {}
+    this.started = false
   }
 
   private async registerCommands() {
@@ -65,7 +67,7 @@ export class WhisperJS {
       })
       .catch((err) => {
         Logger.error("Registering bot commands failed, please check your configs")
-        Logger.error(err)
+        Logger.error(err as string)
         return
       })
 
@@ -74,7 +76,7 @@ export class WhisperJS {
         this.events.ready.execute(client)
       } catch(err) {
         Logger.warn("No on-ready event registered")
-        Logger.warn(err)
+        Logger.warn(err as string)
       }
     })
 
@@ -92,6 +94,7 @@ export class WhisperJS {
       return void await this.commands[interaction.commandName].execute(interaction)
     })
 
+    this.started = true
     this.client.login(this.config.token)
   }
 }
