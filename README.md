@@ -66,8 +66,12 @@ export default async function ready(client: Client<true>) {
 
 - [x] slash commands
 
-- [ ] events (more than just on ready...)
-
 - [ ] more interaction functions
+
+- [ ] database engine
+
+- [ ] better imports...
+
+- [ ] events (more than just on ready...)
 
 - [ ] prefix commands (possibly)
