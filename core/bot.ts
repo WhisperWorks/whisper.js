@@ -30,7 +30,6 @@ export class WhisperJS {
     this.dir = process.cwd()
     this.commands = {}
     this.events = {}
-    this.started = false
   }
 
   private async registerCommands() {
