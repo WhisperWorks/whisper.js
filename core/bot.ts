@@ -9,8 +9,7 @@ export class WhisperJS {
   private client: Client
   private rest: REST
   private dir: string
-  public config: Config
-  public started: boolean
+  private config: Config
 
   private commands: {
     [name: string]: {
@@ -95,7 +94,6 @@ export class WhisperJS {
       return void await this.commands[interaction.commandName].execute(modifyInteraction(interaction))
     })
 
-    this.started = true
     this.client.login(this.config.token)
   }
 }
