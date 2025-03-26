@@ -4,6 +4,7 @@ import { Logger } from "./logging"
 
 import fs from "fs"
 import { modifyInteraction } from "./interaction"
+import { fileURLToPath, pathToFileURL } from "url"
 
 export class WhisperJS {
   private client: Client
@@ -19,7 +20,7 @@ export class WhisperJS {
 
   private events: {
     [name: string]: {
-      execute: (arg: any) => Promise<undefined>
+      execute: (arg: any) => Promise<void>
     }
   }
   
@@ -28,6 +29,9 @@ export class WhisperJS {
     this.rest = new REST({ version: "10" }).setToken(this.config.token)
     this.client = new Client({ intents })
     this.dir = process.cwd()
+    if (process.platform === "win32") {
+      this.dir = pathToFileURL(this.dir).href
+    }
     this.commands = {}
     this.events = {}
   }
@@ -40,19 +44,21 @@ export class WhisperJS {
     /* import all commands, and events */
     this.config.commands.forEach(async command => {
       this.commands[command.name] = {
-        execute: (await import(`${this.dir}/commands/${command.name}`)).default
+        execute: (await import(`${this.dir}/commands/${command.name}`)).default.default
       }
     })
 
-    fs.readdir(`${this.dir}/events`, (err, files) => {
+    fs.readdir(`./events`, (err, files) => {
       if (err) {
+        Logger.error(err.message)
         return void Logger.error("Failed to load events")
       }
 
       files.forEach(async file => {
         this.events[file.replace(/\.ts$/, "")] = {
-          execute: (await import(`${this.dir}/events/${file}`)).default
+          execute: (await import(`${this.dir}/events/${file}`)).default.default
         }
+        this.events
       })
     })
   }

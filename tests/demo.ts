@@ -1,5 +1,5 @@
 import { GatewayIntentBits } from "discord.js"
-import { WhisperJS } from "../core/bot"
+import { WhisperJS } from "@whisperjs/whisper.js"
 
 import "dotenv/config"
 

@@ -4,6 +4,8 @@ a highly experimental discord.js framework for making bot development super easy
 
 [official discord server](https://discord.gg/pKppEudtxW)
 
+[github repo](https://www.github.com/WhisperWorks/whisper.js)
+
 ## notice
 
 i am aware that this package is broken and fails to register commands and events properly and i am trying to fix this. thank you.
