@@ -1,6 +1,6 @@
 {
   "name": "@whisperjs/whisper.js",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Streamline the Discord.js bot creation process",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -15,6 +15,11 @@
   },
   "author": "1xxcy",
   "license": "ISC",
+  "keywords": [
+    "discord",
+    "typescript",
+    "framework"
+  ],
   "dependencies": {
     "discord.js": "^14.18.0"
   },
