@@ -1,10 +1,10 @@
-import { ChatInputCommandInteraction, Client, Events, GatewayIntentBits, REST, Routes } from "discord.js"
+import { Client, Events, GatewayIntentBits, REST, Routes } from "discord.js"
 import { Config } from "./types"
 import { Logger } from "./logging"
+import { modifyInteraction, WhisperInteraction } from "./interaction"
 
 import fs from "fs"
-import { modifyInteraction } from "./interaction"
-import { fileURLToPath, pathToFileURL } from "url"
+import { pathToFileURL } from "url"
 
 export class WhisperJS {
   private client: Client
@@ -14,7 +14,7 @@ export class WhisperJS {
 
   private commands: {
     [name: string]: {
-      execute: (interaction: ChatInputCommandInteraction) => Promise<undefined>
+      execute: (interaction: WhisperInteraction) => Promise<undefined>
     }
   }
 
