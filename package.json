@@ -11,7 +11,8 @@
   "scripts": {
     "publish": "npm publish --access=public",
     "build": "tsup",
-    "test": "npx tsx tests/demo.ts"
+    "test": "npx tsx tests/demo.ts",
+    "local:install": "npm run build && npm link"
   },
   "author": "1xxcy",
   "license": "ISC",

@@ -1,10 +1,12 @@
-import { Client, Events, GatewayIntentBits, REST, Routes } from "discord.js"
-import { Config } from "./types"
-import { Logger } from "./logging"
-import { modifyInteraction, WhisperInteraction } from "./interaction"
-
 import fs from "fs"
 import { pathToFileURL } from "url"
+
+import { Client, Events, GatewayIntentBits, REST, Routes } from "discord.js"
+
+import { Config } from "./types"
+import { Logger } from "./logging"
+import { botEventFiles } from "./event"
+import { modifyInteraction, WhisperInteraction } from "./interaction"
 
 export class WhisperJS {
   private client: Client
@@ -38,65 +40,75 @@ export class WhisperJS {
 
   private async registerCommands() {
     await this.rest.put(Routes.applicationCommands(this.config.clientID), {
-      body: this.config.commands
+      body: this.config.commands,
     })
 
-    /* import all commands, and events */
     this.config.commands.forEach(async command => {
       this.commands[command.name] = {
-        execute: (await import(`${this.dir}/commands/${command.name}`)).default.default
+        execute: (await import(`${this.dir}/commands/${command.name}`)).default.default,
       }
     })
 
-    fs.readdir(`./events`, (err, files) => {
-      if (err) {
-        Logger.error(err.message)
-        return void Logger.error("Failed to load events")
-      }
+    try {
+      const files = await fs.promises.readdir(`./events`)
 
-      files.forEach(async file => {
+      Logger.info("Loading event functions")
+      Logger.info(files.join(", "))
+
+      for (const file of files) {
         this.events[file.replace(/\.ts$/, "")] = {
           execute: (await import(`${this.dir}/events/${file}`)).default.default
         }
-        this.events
-      })
-    })
+      }
+    } catch (err) {
+      Logger.error((err as Error).message)
+      Logger.error("Failed to load events")
+    }
   }
-
+  
   async start() {
     Logger.info("Registering bot commands")
-
+    
     await this.registerCommands()
-      .then(() => {
-        Logger.info("Registered bot commands")
-      })
-      .catch((err) => {
-        Logger.error("Registering bot commands failed, please check your configs")
-        Logger.error(err as string)
-        return
-      })
-
-    this.client.on(Events.ClientReady, client => {
-      try {
-        this.events.ready.execute(client)
-      } catch(err) {
-        Logger.warn("No on-ready event registered")
-        Logger.warn(err as string)
-      }
+    .then(() => {
+      Logger.info("Registered bot commands")
+    })
+    .catch(err => {
+      Logger.error("Registering bot commands failed, please check your configs")
+      Logger.error(err as string)
+      return
+    })
+    
+    Logger.info(JSON.stringify(this.events, null, 2))
+    // we basically just import the file and execute the function with the event as argument
+    Object.keys(botEventFiles).forEach(eventName => {
+      if (!this.events[eventName]) {
+        Logger.warn(`No event handler found for: ${eventName}`)
+      } else {
+        this.client.on(eventName, async (...args: [any]) => {
+          const eventHandler = this.events[eventName]
+          console.log(eventName, eventHandler)
+          if (eventHandler) {
+            await eventHandler.execute(...args)
+          } else {
+            Logger.error(`No handler found for event: ${eventName}`)
+          }
+        })     
+      } 
     })
 
     this.client.on(Events.InteractionCreate, async interaction => {
       if (!interaction.isChatInputCommand()) return
 
       if (!this.commands[interaction.commandName]) {
-        return void await interaction.reply("Command not found. Contact the bot developer for help.")
+        return void (await interaction.reply("Command not found. Contact the bot developer for help."))
       }
 
       if (this.config.devOnly.includes(interaction.commandName)) {
-        return void await interaction.reply("This is a dev only command.")
+        return void (await interaction.reply("This is a dev only command."))
       }
 
-      return void await this.commands[interaction.commandName].execute(modifyInteraction(interaction))
+      return void (await this.commands[interaction.commandName].execute(modifyInteraction(interaction)))
     })
 
     this.client.login(this.config.token)
